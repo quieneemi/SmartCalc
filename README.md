@@ -11,6 +11,8 @@
 
 ## Libraries & Frameworks
 - Avalonia UI
+- Reactive UI
+- MVVM Toolkit
 - LiveCharts2
 - org.matheval
 
