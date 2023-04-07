@@ -1,0 +1,97 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:LoanCalc.App.ViewModels"
+        xmlns:m="using:LoanCalc.Core.Models"
+        xmlns:local="using:LoanCalc.App.Models"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="LoanCalc.App.Views.ResultWindow"
+        Icon="/Assets/calculator-money-icon.ico"
+        Title="Result"
+        MinWidth="560" Width="685"
+        MinHeight="410" Height="610">
+    
+    <Design.DataContext>
+        <vm:ResultWindowViewModel/>
+    </Design.DataContext>
+    
+    <Window.Resources>
+        <local:DataGridHeightConverter x:Key="HeightConverter"/>
+    </Window.Resources>
+    
+    <Window.Styles>
+        <Style Selector="Label">
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
+    </Window.Styles>
+    
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,Auto" Margin="12">
+        <!-- Info -->
+        <StackPanel Grid.Row="0" Grid.Column="0" Spacing="9">
+            <StackPanel Spacing="3">
+                <Label Content="Total repayment"/>
+                <TextBlock Text="{Binding TotalPayment}" Margin="9,0,0,0"/>
+            </StackPanel>
+            <StackPanel Spacing="3">
+                <Label Content="Overpayment"/>
+                <TextBlock Text="{Binding Overpayment}" Margin="9,0,0,0"/>
+            </StackPanel>
+        </StackPanel>
+        <!-- Pie graph -->
+        <lvc:PieChart Grid.Row="0" Grid.Column="1" Width="300" Height="120"
+                      Series="{Binding PieSeries}" LegendPosition="Left"/>
+        <!-- Payments grid -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Spacing="3">
+            <Label Content="Monthly payments"/>
+            <DataGrid Items="{Binding MonthlyPayments}"
+                      GridLinesVisibility="All" RowBackground="#1000"
+                      Height="{Binding $parent[Window].Height, Converter={StaticResource HeightConverter}}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="No" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="m:Payment">
+                                <TextBlock Text="{Binding Id}"
+                                           VerticalAlignment="Center" Margin="6,0,0,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Payment amount" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="m:Payment">
+                                <TextBlock Text="{Binding Amount, StringFormat='{}{0:C}'}"
+                                           VerticalAlignment="Center" Margin="6,0,0,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Principal payment" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="m:Payment">
+                                <TextBlock Text="{Binding PrincipalPayment, StringFormat='{}{0:C}'}"
+                                           VerticalAlignment="Center" Margin="6,0,0,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Interests payment" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="m:Payment">
+                                <TextBlock Text="{Binding InterestsPayment, StringFormat='{}{0:C}'}"
+                                           VerticalAlignment="Center" Margin="6,0,0,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Debt amount" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="m:Payment">
+                                <TextBlock Text="{Binding DebtAmount, StringFormat='{}{0:C}'}"
+                                           VerticalAlignment="Center" Margin="6,0,0,0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+    
+</Window>

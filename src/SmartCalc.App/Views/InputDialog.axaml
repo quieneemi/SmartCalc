@@ -1,0 +1,26 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:SmartCalc.App.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SmartCalc.App.Views.InputDialog"
+        x:DataType="vm:InputDialogViewModel"
+        Icon="/Assets/calc-icon.ico"
+        WindowStartupLocation="CenterOwner"
+        Width="200" Height="100"
+        CanResize="False">
+    
+    <Design.DataContext>
+        <vm:InputDialogViewModel/>
+    </Design.DataContext>
+    
+    <StackPanel Spacing="12" Margin="12">
+        <TextBox Text="{Binding Text}" Watermark="{Binding Title}"/>
+        <Button Content="OK" HotKey="Enter"
+                Command="{Binding ReturnValueCommand}"
+                HorizontalAlignment="Right" Width="50"
+                HorizontalContentAlignment="Center"/>
+    </StackPanel>
+    
+</Window>

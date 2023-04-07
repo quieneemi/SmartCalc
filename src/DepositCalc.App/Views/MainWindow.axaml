@@ -1,0 +1,234 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DepositCalc.App.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:DepositCalc.App.Models"
+        xmlns:m="using:DepositCalc.Core.Models"
+        xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="DepositCalc.App.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/estimate-icon.ico"
+        Title="Deposit Calc"
+        MinWidth="984" Width="984" MaxWidth="984"
+        MinHeight="400" Height="550">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Resources>
+        <local:DataGridHeightConverter x:Key="HeightConverter"/>
+    </Window.Resources>
+    
+    <Window.Styles>
+        <Style Selector="Label">
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
+    </Window.Styles>
+    
+    <StackPanel Orientation="Horizontal">
+        <DockPanel>
+            <Button DockPanel.Dock="Bottom" Command="{Binding Calculate}"
+                    Content="Calculate" Margin="9" FontWeight="DemiBold"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center">
+                <Button.CommandParameter>
+                    <MultiBinding>
+                        <Binding ElementName="Amount" Path="Value"/>
+                        <Binding ElementName="Term" Path="Value"/>
+                        <Binding ElementName="StartDate" Path="SelectedDate"/>
+                        <Binding ElementName="InterestRate" Path="Value"/>
+                        <Binding ElementName="TaxRate" Path="Value"/>
+                        <Binding ElementName="Capitalization" Path="IsChecked"/>
+                        <Binding ElementName="CapitalizationPeriodicity" Path="SelectedIndex"/>
+                        <Binding ElementName="PartialAdditionsPeriodicity" Path="SelectedIndex"/>
+                        <Binding ElementName="PartialAdditionsAmount" Path="Value"/>
+                        <Binding ElementName="PartialWithdrawalsPeriodicity" Path="SelectedIndex"/>
+                        <Binding ElementName="PartialWithdrawalsAmount" Path="Value"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+            <StackPanel Margin="9" Spacing="12">
+                <StackPanel Spacing="3">
+                    <Label Content="Amount"/>
+                    <NumericUpDown Name="Amount" Value="700000" FormatString="C" Increment="100000" Minimum="1"/>
+                </StackPanel>
+                <StackPanel Spacing="3">
+                    <Label Content="Term"/>
+                    <NumericUpDown Name="Term" Value="12" FormatString="{}{0} months" Increment="6" Minimum="1"/>
+                </StackPanel>
+                <StackPanel Spacing="3">
+                    <Label Content="Start date"/>
+                    <DatePicker Name="StartDate"/>
+                </StackPanel>
+                <DockPanel>
+                    <StackPanel Spacing="3">
+                        <Label Content="Interest rate"/>
+                        <NumericUpDown Name="InterestRate" Value="0.11" FormatString="P" Increment="0.01" Minimum="0"/>
+                    </StackPanel>
+                    <StackPanel Spacing="3" Margin="10,0,0,0">
+                        <Label Content="Tax rate"/>
+                        <NumericUpDown Name="TaxRate" Value="0" FormatString="P" Increment="0.01" Minimum="0"/>
+                    </StackPanel>
+                </DockPanel>
+                <DockPanel>
+                    <CheckBox Name="Capitalization" Content="Capitalization" Margin="0,0,20,0"/>
+                    <ComboBox Name="CapitalizationPeriodicity" SelectedIndex="2"
+                              IsEnabled="{Binding #Capitalization.IsChecked}"
+                              HorizontalAlignment="Stretch">
+                        <ComboBoxItem Content="Daily"/>
+                        <ComboBoxItem Content="Weekly"/>
+                        <ComboBoxItem Content="Monthly"/>
+                        <ComboBoxItem Content="Quarterly"/>
+                        <ComboBoxItem Content="Semiannually"/>
+                        <ComboBoxItem Content="Annually"/>
+                    </ComboBox>
+                </DockPanel>
+            </StackPanel>
+        </DockPanel>
+        <StackPanel Width="690" Background="#f2f2f2">
+            <StackPanel Margin="9" Spacing="9">
+                <Label Content="Partial additions and withdrawals"/>
+                <DockPanel>
+                    <Border Width="316" Padding="9" BorderBrush="LightGray" BorderThickness="1" CornerRadius="3">
+                        <StackPanel Spacing="9">
+                            <StackPanel Spacing="6">
+                                <Label Content="Partial additions"/>
+                                <DockPanel>
+                                    <ComboBox Name="PartialAdditionsPeriodicity" SelectedIndex="2">
+                                        <ComboBoxItem Content="Daily"/>
+                                        <ComboBoxItem Content="Weekly"/>
+                                        <ComboBoxItem Content="Monthly"/>
+                                        <ComboBoxItem Content="Quarterly"/>
+                                        <ComboBoxItem Content="Semiannually"/>
+                                        <ComboBoxItem Content="Annually"/>
+                                    </ComboBox>
+                                    <NumericUpDown Value="0" FormatString="C" Margin="6,0,0,0"
+                                                   Increment="10000" Minimum="0"
+                                                   Name="PartialAdditionsAmount"/>
+                                </DockPanel>
+                            </StackPanel>
+                            <StackPanel Spacing="6">
+                                <Label Content="List of additions"/>
+                                <DatePicker Name="AdditionDate"/>
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Margin="9,0,0,0"
+                                            IsEnabled="{Binding !!#AdditionsDataGrid.SelectedItem}"
+                                            Command="{Binding RemoveAddition}"
+                                            CommandParameter="{Binding #AdditionsDataGrid.SelectedItem}">
+                                        <material:MaterialIcon Kind="Minus"/>
+                                    </Button>
+                                    <Button DockPanel.Dock="Right" Margin="9,0,0,0"
+                                            IsEnabled="{Binding #AdditionAmount.Value}"
+                                            Command="{Binding AddAddition}">
+                                        <material:MaterialIcon Kind="Add"/>
+                                        <Button.CommandParameter>
+                                            <MultiBinding>
+                                                <Binding ElementName="AdditionDate" Path="SelectedDate"/>
+                                                <Binding ElementName="AdditionAmount" Path="Value"/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <NumericUpDown Value="0" FormatString="C" Increment="10000" Minimum="0"
+                                                   Name="AdditionAmount"/>
+                                </DockPanel>
+                            </StackPanel>
+                            <DataGrid Name="AdditionsDataGrid" Items="{Binding Additions}"
+                                      GridLinesVisibility="All" RowBackground="#1000"
+                                      Height="{Binding $parent[Window].Height, Converter={StaticResource HeightConverter}}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Date" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="m:Payment">
+                                                <TextBlock Text="{Binding Date, StringFormat='{}{0:MMMM dd, yyyy}'}"
+                                                           VerticalAlignment="Center" Margin="6,0,0,0"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Amount" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="m:Payment">
+                                                <TextBlock Text="{Binding Amount, StringFormat='{}{0:C}'}"
+                                                           VerticalAlignment="Center" Margin="6,0,0,0"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Border>
+                    <Border Width="316" Padding="9" BorderBrush="LightGray" BorderThickness="1" CornerRadius="3">
+                        <StackPanel Spacing="9">
+                            <StackPanel Spacing="6">
+                                <Label Content="Partial withdrawals"/>
+                                <DockPanel>
+                                    <ComboBox Name="PartialWithdrawalsPeriodicity" SelectedIndex="2">
+                                        <ComboBoxItem Content="Daily"/>
+                                        <ComboBoxItem Content="Weekly"/>
+                                        <ComboBoxItem Content="Monthly"/>
+                                        <ComboBoxItem Content="Quarterly"/>
+                                        <ComboBoxItem Content="Semiannually"/>
+                                        <ComboBoxItem Content="Annually"/>
+                                    </ComboBox>
+                                    <NumericUpDown Value="0" FormatString="C" Margin="6,0,0,0"
+                                                   Increment="10000" Minimum="0"
+                                                   Name="PartialWithdrawalsAmount"/>
+                                </DockPanel>
+                            </StackPanel>
+                            <StackPanel Spacing="6">
+                                <Label Content="List of withdrawals"/>
+                                <DatePicker Name="WithdrawalDate"/>
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Margin="9,0,0,0"
+                                            IsEnabled="{Binding !!#WithdrawalsDataGrid.SelectedItem}"
+                                            Command="{Binding RemoveWithdrawal}"
+                                            CommandParameter="{Binding #WithdrawalsDataGrid.SelectedItem}">
+                                        <material:MaterialIcon Kind="Minus"/>
+                                    </Button>
+                                    <Button DockPanel.Dock="Right" Margin="9,0,0,0"
+                                            IsEnabled="{Binding #WithdrawalAmount.Value}"
+                                            Command="{Binding AddWithdrawal}">
+                                        <material:MaterialIcon Kind="Add"/>
+                                        <Button.CommandParameter>
+                                            <MultiBinding>
+                                                <Binding ElementName="WithdrawalDate" Path="SelectedDate"/>
+                                                <Binding ElementName="WithdrawalAmount" Path="Value"/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <NumericUpDown Name="WithdrawalAmount" Value="0" FormatString="C"
+                                                   Increment="10000" Minimum="0"/>
+                                </DockPanel>
+                            </StackPanel>
+                            <DataGrid Name="WithdrawalsDataGrid" Items="{Binding Withdrawals}"
+                                      GridLinesVisibility="All" RowBackground="#1000"
+                                      Height="{Binding $parent[Window].Height, Converter={StaticResource HeightConverter}}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Date" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="m:Payment">
+                                                <TextBlock Text="{Binding Date, StringFormat='{}{0:MMMM dd, yyyy}'}"
+                                                           VerticalAlignment="Center" Margin="6,0,0,0"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Amount" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="m:Payment">
+                                                <TextBlock Text="{Binding Amount, StringFormat='{}{0:C}'}"
+                                                           VerticalAlignment="Center" Margin="6,0,0,0"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Border>
+                </DockPanel>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+
+</Window>

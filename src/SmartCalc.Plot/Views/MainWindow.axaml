@@ -1,0 +1,56 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SmartCalc.Plot.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SmartCalc.Plot.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/formula-fx-icon.ico"
+        Title="Plot"
+        Width="840" MinWidth="840"
+        Height="560" MinHeight="560">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+        <StyleInclude Source="/Styles/MainWindowStyles.axaml"/>
+    </Window.Styles>
+    
+    <Grid RowDefinitions="Auto,*,Auto" Margin="9">
+        <!-- Expression -->
+        <TextBlock Text="{Binding Expression, StringFormat='y = {0}'}"/>
+        <!-- Plot -->
+        <lvc:CartesianChart Grid.Row="1" Series="{Binding Series}"
+                            XAxes="{Binding XAxes}" YAxes="{Binding YAxes}"/>
+        <!-- Properties -->
+        <StackPanel Grid.Row="2" Spacing="9">
+            <Label Content="Properties"
+                   HorizontalAlignment="Center" FontWeight="Bold"/>
+            <DockPanel Margin="15">
+                <!-- Y range -->
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Label Content="Y axis range" Classes="prop"/>
+                    <NumericUpDown Value="{Binding YAxisMinimum}"
+                                   Minimum="-1000000" Maximum="1000000"/>
+                    <Label Content=" | "/>
+                    <NumericUpDown Value="{Binding YAxisMaximum}"
+                                   Minimum="-1000000" Maximum="1000000"/>
+                </StackPanel>
+                <!-- X range -->
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="X axis range" Classes="prop"/>
+                    <NumericUpDown Value="{Binding XAxisMinimum}"
+                                   Minimum="-1000000" Maximum="1000000"/>
+                    <Label Content=" | "/>
+                    <NumericUpDown Value="{Binding XAxisMaximum}"
+                                   Minimum="-1000000" Maximum="1000000"/>
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+
+</Window>

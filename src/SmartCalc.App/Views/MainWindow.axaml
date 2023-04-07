@@ -1,0 +1,229 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SmartCalc.App.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SmartCalc.App.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/calc-icon.ico"
+        Title="Smart Calc"
+        Width="420" Height="400"
+        CanResize="False">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+        <StyleInclude Source="/Styles/MainWindowStyles.axaml"/>
+    </Window.Styles>
+    
+    <SplitView IsPaneOpen="{Binding IsPaneOpen}" PanePlacement="Right" OpenPaneLength="420"
+               DisplayMode="Overlay" UseLightDismissOverlayMode="True">
+        <SplitView.Pane>
+            <DockPanel Margin="9">
+                <DockPanel DockPanel.Dock="Bottom">
+                    <Button DockPanel.Dock="Right" HorizontalAlignment="Right"
+                            Command="{Binding History.Clear}" IsEnabled="{Binding History.Count}">
+                        <material:MaterialIcon Kind="TrashCan"/>
+                    </Button>
+                    <Button Command="{Binding TriggerPaneState}">
+                        <material:MaterialIcon Kind="ArrowLeft"/>
+                    </Button>
+                </DockPanel>
+                <Label DockPanel.Dock="Top" Content="History" FontWeight="Bold"/>
+                <ListBox Items="{Binding History}" SelectedItem="{Binding SelectedHistoryItem}" Padding="9">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Spacing="3">
+                                <TextBlock Text="{Binding Expression, StringFormat='{}{0} ='}"
+                                           TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                           TextAlignment="Right" FontWeight="Light" FontSize="14"/>
+                                <TextBlock Text="{Binding Result}"
+                                           TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                           TextAlignment="Right" FontWeight="SemiBold" FontSize="18"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </SplitView.Pane>
+        <Grid RowDefinitions="Auto,Auto,*">
+            <DockPanel Grid.Row="0">
+                <Button DockPanel.Dock="Right" Margin="0,6,9,0" Background="#f0f0f0"
+                        Command="{Binding TriggerPaneState}" HotKey="Ctrl+H">
+                    <material:MaterialIcon Kind="History"/>
+                </Button>
+                <Menu>
+                    <MenuItem Header="Tools">
+                        <MenuItem Header="Show plot" HotKey="F2"
+                                  IsEnabled="{Binding Expression.Length}"
+                                  Command="{Binding ShowPlot}">
+                            <MenuItem.Icon>
+                                <material:MaterialIcon Kind="ChartBellCurve"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Loan calc" HotKey="F3"
+                                  Command="{Binding ShowLoanCalc}">
+                            <MenuItem.Icon>
+                                <material:MaterialIcon Kind="CreditCard"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Deposit calc" HotKey="F4"
+                                  Command="{Binding ShowDepositCalc}">
+                            <MenuItem.Icon>
+                                <material:MaterialIcon Kind="Percent"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+            </DockPanel>
+            <!-- Expression text -->
+            <TextBox Grid.Row="1" Text="{Binding Expression}" Watermark="0" Focusable="False"
+                     TextWrapping="WrapWithOverflow" TextAlignment="Right" FontSize="20" Margin="9"/>
+            <!-- Buttons -->
+            <Grid Grid.Row="2" RowDefinitions="*,*,*,*,*" ColumnDefinitions="*,*,*,*,*,*,*" Margin="9">
+                <!-- Numpad -->
+                <Button Grid.Row="1" Grid.Column="0" Classes="num"
+                        Content="7" HotKey="NumPad7"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="1" Grid.Column="1" Classes="num"
+                        Content="8" HotKey="NumPad8"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="1" Grid.Column="2" Classes="num"
+                        Content="9" HotKey="NumPad9"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="2" Grid.Column="0"  Classes="num"
+                        Content="4" HotKey="NumPad4"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="2" Grid.Column="1" Classes="num"
+                        Content="5" HotKey="NumPad5"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="2" Grid.Column="2" Classes="num"
+                        Content="6" HotKey="NumPad6"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="3" Grid.Column="0" Classes="num"
+                        Content="1" HotKey="NumPad1"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="3" Grid.Column="1" Classes="num"
+                        Content="2" HotKey="NumPad2"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="3" Grid.Column="2" Classes="num"
+                        Content="3" HotKey="NumPad3"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Classes="num"
+                        Content="0" HotKey="NumPad0"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="4" Grid.Column="2" Classes="num"
+                        Content="{Binding DecimalSeparator}" HotKey="Decimal"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <!-- x ( ) + - * / ^ e -->
+                <Button Grid.Row="0" Grid.Column="0" Classes="ctrl"
+                        Content="x" HotKey="X"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="0" Grid.Column="1" Classes="ctrl"
+                        Content="(" HotKey="Shift+D9"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="0" Grid.Column="2" Classes="ctrl"
+                        Content=")" HotKey="Shift+D0"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="0" Grid.Column="3" Classes="ctrl"
+                        Content="+" HotKey="Add"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="1" Grid.Column="3" Classes="ctrl"
+                        Content="-" HotKey="Subtract"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="2" Grid.Column="3" Classes="ctrl"
+                        Content="*" HotKey="Multiply"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="3" Grid.Column="3" Classes="ctrl"
+                        Content="/" HotKey="Divide"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="4" Grid.Column="3" Classes="ctrl"
+                        Content="^" HotKey="Shift+D6"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content}"/>
+                <Button Grid.Row="0" Grid.Column="4" Classes="ctrl"
+                        Content="e" HotKey="E"
+                        Command="{Binding AddSyllable}" 
+                        CommandParameter="{Binding $self.Content}"/>
+                <!-- CA  <- EQ -->
+                <Button Grid.Row="1" Grid.Column="4" Classes="ctrl"
+                        Content="C" HotKey="Shift+Back"
+                        Command="{Binding ClearExpression}"/>
+                <Button Grid.Row="2" Grid.Column="4" Classes="ctrl" HotKey="Back"
+                        Command="{Binding SubtractSyllable}">
+                    <material:MaterialIcon Kind="BackspaceOutline" Width="17" Height="17"/>
+                </Button>
+                <Button Grid.Row="3" Grid.Column="4" Grid.RowSpan="2"
+                        Content="EQ" HotKey="Enter"
+                        Command="{Binding Calculate}"
+                        Background="#4d8bc8" Foreground="White" FontSize="18"/>
+                <!-- Functions -->
+                <Button Grid.Row="0" Grid.Column="5" Classes="func" HotKey="Q"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="sqrt(">
+                    <material:MaterialIcon Kind="SquareRoot" Width="23" Height="23"/>
+                </Button>
+                <Button Grid.Row="0" Grid.Column="6" Classes="func"
+                        Content="mod" HotKey="M"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="%"/>
+                <Button Grid.Row="1" Grid.Column="5" Classes="func"
+                        Content="cos" HotKey="C"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content, StringFormat='{}{0}('}"/>
+                <Button Grid.Row="1" Grid.Column="6" Classes="func"
+                        Content="acos" HotKey="Shift+C"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content, StringFormat='{}{0}('}"/>
+                <Button Grid.Row="2" Grid.Column="5" Classes="func"
+                        Content="sin" HotKey="S"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content, StringFormat='{}{0}('}"/>
+                <Button Grid.Row="2" Grid.Column="6" Classes="func"
+                        Content="asin" HotKey="Shift+S"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content, StringFormat='{}{0}('}"/>
+                <Button Grid.Row="3" Grid.Column="5" Classes="func"
+                        Content="tan" HotKey="T"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content, StringFormat='{}{0}('}"/>
+                <Button Grid.Row="3" Grid.Column="6" Classes="func"
+                        Content="atan" HotKey="Shift+T"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content, StringFormat='{}{0}('}"/>
+                <Button Grid.Row="4" Grid.Column="5" Classes="func"
+                        Content="ln" HotKey="Shift+L"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content, StringFormat='{}{0}('}"/>
+                <Button Grid.Row="4" Grid.Column="6" Classes="func"
+                        Content="log" HotKey="L"
+                        Command="{Binding AddSyllable}"
+                        CommandParameter="{Binding $self.Content, StringFormat='{}{0}('}"/>
+            </Grid>
+        </Grid>
+    </SplitView>
+
+</Window>

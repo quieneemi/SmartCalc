@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:DepositCalc.App.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="DepositCalc.App.Views.ResultWindow"
+        Icon="/Assets/estimate-icon.ico"
+        Title="Result"
+        WindowStartupLocation="CenterOwner"
+        Width="400" Height="250"
+        CanResize="False">
+    
+    <Design.DataContext>
+        <vm:ResultWindowViewModel/>
+    </Design.DataContext>
+    
+    <Window.Styles>
+        <Style Selector="Label">
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
+    </Window.Styles>
+    
+    <Border BorderBrush="LightGray" BorderThickness="2" Padding="12" Margin="12" CornerRadius="5">
+        <StackPanel Spacing="12">
+            <StackPanel Spacing="3">
+                <Label Content="Accrued interest"/>
+                <TextBlock Text="{Binding Interests}" Margin="9,0,0,0"/>
+            </StackPanel>
+            <StackPanel Spacing="3">
+                <Label Content="Tax amount"/>
+                <TextBlock Text="{Binding Taxes}" Margin="9,0,0,0"/>
+            </StackPanel>
+            <StackPanel Spacing="3">
+                <Label Content="Amount on deposit by the end of the term"/>
+                <TextBlock Text="{Binding Amount}" Margin="9,0,0,0"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+    
+</Window>

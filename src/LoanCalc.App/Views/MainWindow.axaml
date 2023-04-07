@@ -1,0 +1,59 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:LoanCalc.App.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="LoanCalc.App.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/calculator-money-icon.ico"
+        Title="Loan Calc"
+        WindowStartupLocation="CenterOwner"
+        Width="300" Height="350"
+        CanResize="False">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="Label">
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
+    </Window.Styles>
+    
+    <StackPanel Margin="9" Spacing="9">
+        <StackPanel Spacing="6">
+            <Label Content="Total loan amount"/>
+            <NumericUpDown Name="Amount" Value="1000000" FormatString="C" Increment="100000"/>
+        </StackPanel>
+        <StackPanel Spacing="6">
+            <Label Content="Term"/>
+            <NumericUpDown Name="Term" Value="12" FormatString="{}{0} months" Increment="6"/>
+        </StackPanel>
+        <StackPanel Spacing="6">
+            <Label Content="Interest rate"/>
+            <NumericUpDown Name="Rate" Value="0.11" FormatString="P" Increment="0.01"/>
+        </StackPanel>
+        <StackPanel Spacing="6">
+            <Label Content="Type"/>
+            <ComboBox Name="Type" SelectedIndex="0" HorizontalAlignment="Stretch">
+                <ComboBoxItem Content="Annuity"/>
+                <ComboBoxItem Content="Differentiated"/>
+            </ComboBox>
+        </StackPanel>
+        <Button Command="{Binding Calculate}"
+                Content="Calculate" Margin="0,20,0,0" FontWeight="DemiBold"
+                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+            <Button.CommandParameter>
+                <MultiBinding>
+                    <Binding ElementName="Amount" Path="Value"/>
+                    <Binding ElementName="Rate" Path="Value"/>
+                    <Binding ElementName="Term" Path="Value"/>
+                    <Binding ElementName="Type" Path="SelectedIndex"/>
+                </MultiBinding>
+            </Button.CommandParameter>
+        </Button>
+    </StackPanel>
+
+</Window>

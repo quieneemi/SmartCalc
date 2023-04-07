@@ -1,0 +1,63 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:material="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
+
+    <Style Selector="Button">
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontFamily" Value="Consolas"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    
+    <Style Selector="Button:pressed">
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+    
+    <Style Selector="Button:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{Binding $parent[Button].Background}"/>
+    </Style>
+    
+    <Style Selector="Button.func">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Background" Value="#a0d0fc"/>
+        <Setter Property="Foreground" Value="#4a86c1"/>
+    </Style>
+    
+    <Style Selector="Button.func:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#cbe5ff"/>
+    </Style>
+    
+    <Style Selector="Button.num">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Background" Value="#cbe5ff"/>
+        <Setter Property="Foreground" Value="#243041"/>
+    </Style>
+    
+    <Style Selector="Button.num:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#a0d0fc"/>
+    </Style>
+    
+    <Style Selector="Button.ctrl">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Background" Value="#a0d0fc"/>
+        <Setter Property="Foreground" Value="#15416c"/>
+    </Style>
+    
+    <Style Selector="Button.ctrl:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#cbe5ff"/>
+    </Style>
+    
+    <Style Selector="material|MaterialIcon">
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+    </Style>
+    
+    <Style Selector="MenuItem > material|MaterialIcon">
+        <Setter Property="Margin" Value="0,2,0,0"/>
+    </Style>
+    
+</Styles>
