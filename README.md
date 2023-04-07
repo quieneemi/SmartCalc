@@ -1,5 +1,7 @@
 # SmartCalc
 
+## Supported OS: Linux, Windows, MacOS
+
 ### Run from CLI:
 > cd src/SmartCalc.App
 
