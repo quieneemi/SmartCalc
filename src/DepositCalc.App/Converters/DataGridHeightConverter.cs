@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace DepositCalc.App.Models;
+namespace DepositCalc.App.Converters;
 
 public class DataGridHeightConverter : IValueConverter
 {

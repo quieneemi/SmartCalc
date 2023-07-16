@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace LoanCalc.App.Models;
+namespace LoanCalc.App.Converters;
 
 public class DataGridHeightConverter : IValueConverter
 {

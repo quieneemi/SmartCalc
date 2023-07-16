@@ -4,8 +4,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:LoanCalc.App.ViewModels"
         xmlns:m="using:LoanCalc.Core.Models"
-        xmlns:local="using:LoanCalc.App.Models"
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+        xmlns:conv="using:LoanCalc.App.Converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LoanCalc.App.Views.ResultWindow"
 		x:DataType="vm:ResultWindowViewModel"
@@ -19,7 +19,7 @@
     </Design.DataContext>
     
     <Window.Resources>
-        <local:DataGridHeightConverter x:Key="HeightConverter"/>
+        <conv:DataGridHeightConverter x:Key="HeightConverter"/>
     </Window.Resources>
     
     <Window.Styles>

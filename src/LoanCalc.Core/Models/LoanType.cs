@@ -1,6 +1,6 @@
 namespace LoanCalc.Core.Models;
 
-public enum Type
+public enum LoanType
 {
     Annuity,
     Differentiated

@@ -1,6 +1,5 @@
 using LoanCalc.Core.Interfaces;
 using LoanCalc.Core.Models;
-using Type = LoanCalc.Core.Models.Type;
 
 namespace LoanCalc.Core;
 
@@ -8,7 +7,7 @@ public class LoanCalcService : ILoanCalcService
 {
     public ResultData Calculate(SourceData data)
     {
-        return data.Type == Type.Annuity
+        return data.LoanType == LoanType.Annuity
             ? CalcAnnuity(data)
             : CalcDifferentiated(data);
     }

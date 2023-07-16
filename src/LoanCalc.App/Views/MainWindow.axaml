@@ -3,6 +3,7 @@
         xmlns:vm="using:LoanCalc.App.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:conv="using:LoanCalc.App.Converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LoanCalc.App.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -15,6 +16,10 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+    
+    <Window.Resources>
+        <conv:SourceDataConverter x:Key="SourceDataConverter"/>
+    </Window.Resources>
 
     <Window.Styles>
         <Style Selector="Label">
@@ -46,7 +51,7 @@
                 Content="Calculate" Margin="0,20,0,0" FontWeight="DemiBold"
                 HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
             <Button.CommandParameter>
-                <MultiBinding>
+                <MultiBinding Converter="{StaticResource SourceDataConverter}" Mode="OneWay">
                     <Binding ElementName="Amount" Path="Value"/>
                     <Binding ElementName="Rate" Path="Value"/>
                     <Binding ElementName="Term" Path="Value"/>

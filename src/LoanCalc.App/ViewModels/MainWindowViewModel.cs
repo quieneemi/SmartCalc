@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Reactive;
+﻿using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using LoanCalc.Core.Interfaces;
@@ -20,19 +19,12 @@ public class MainWindowViewModel
         _calcService = Locator.Current.GetService<ILoanCalcService>();
     }
 
-    public async Task Calculate(ReadOnlyCollection<object> parameters)
+    public async Task Calculate(object data)
     {
-        if (_calcService is null) return;
+        if (_calcService is null ||
+            data is not SourceData sourceData) return;
 
-        var data = new SourceData
-        {
-            Amount = (decimal)parameters[0],
-            InterestRate = (decimal)parameters[1],
-            Term = (int)(decimal)parameters[2],
-            Type = (Type)parameters[3]
-        };
-
-        var result = _calcService.Calculate(data);
+        var result = _calcService.Calculate(sourceData);
 
         await ShowResultWindowInteraction.Handle(result);
     }
