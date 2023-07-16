@@ -26,9 +26,9 @@ public class MainWindowViewModel
 
         var data = new SourceData
         {
-            Amount = (decimal)(double)parameters[0],
-            InterestRate = (decimal)(double)parameters[1],
-            Term = (int)(double)parameters[2],
+            Amount = (decimal)parameters[0],
+            InterestRate = (decimal)parameters[1],
+            Term = (int)(decimal)parameters[2],
             Type = (Type)parameters[3]
         };
 
