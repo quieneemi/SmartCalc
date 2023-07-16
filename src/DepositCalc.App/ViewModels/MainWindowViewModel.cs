@@ -33,7 +33,7 @@ public class MainWindowViewModel
         var addition = new Payment
         {
             Date = ((DateTimeOffset)parameters[0]).Date,
-            Amount = (decimal)(double)parameters[1]
+            Amount = (decimal)parameters[1]
         };
         Additions.Add(addition);
     }
@@ -45,7 +45,7 @@ public class MainWindowViewModel
         var withdrawal = new Payment
         {
             Date = ((DateTimeOffset)parameters[0]).Date,
-            Amount = (decimal)(double)parameters[1]
+            Amount = (decimal)parameters[1]
         };
         Withdrawals.Add(withdrawal);
     }
@@ -58,22 +58,22 @@ public class MainWindowViewModel
         
         var data = new SourceData
         {
-            Amount = (decimal)(double)parameters[0],
-            Term = (int)(double)parameters[1],
+            Amount = (decimal)parameters[0],
+            Term = (int)(decimal)parameters[1],
             StartDate = ((DateTimeOffset)parameters[2]).Date,
-            InterestRate = (decimal)(double)parameters[3],
-            TaxRate = (decimal)(double)parameters[4],
+            InterestRate = (decimal)parameters[3],
+            TaxRate = (decimal)parameters[4],
             Capitalization = (bool)parameters[5],
             CapitalizationPeriodicity = (Periodicity)parameters[6],
             PeriodicalAdditions = new PeriodicalPayment
             {
                 Periodicity = (Periodicity)parameters[7],
-                Amount = (decimal)(double)parameters[8]
+                Amount = (decimal)parameters[8]
             },
             PeriodicalWithdrawals = new PeriodicalPayment
             {
                 Periodicity = (Periodicity)parameters[9],
-                Amount = (decimal)(double)parameters[10]
+                Amount = (decimal)parameters[10]
             },
             Additions = Additions.ToList(),
             Withdrawals = Withdrawals.ToList()

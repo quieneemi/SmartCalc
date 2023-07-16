@@ -34,7 +34,7 @@
                     </Button>
                 </DockPanel>
                 <Label DockPanel.Dock="Top" Content="History" FontWeight="Bold"/>
-                <ListBox Items="{Binding History}" SelectedItem="{Binding SelectedHistoryItem}" Padding="9">
+                <ListBox ItemsSource="{Binding History}" SelectedItem="{Binding SelectedHistoryItem}" Padding="9">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Spacing="3">
