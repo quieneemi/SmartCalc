@@ -8,6 +8,7 @@
         xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LoanCalc.App.Views.ResultWindow"
+		x:DataType="vm:ResultWindowViewModel"
         Icon="/Assets/calculator-money-icon.ico"
         Title="Result"
         MinWidth="560" Width="685"
@@ -45,7 +46,7 @@
         <!-- Payments grid -->
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Spacing="3">
             <Label Content="Monthly payments"/>
-            <DataGrid Items="{Binding MonthlyPayments}"
+            <DataGrid ItemsSource="{Binding MonthlyPayments}"
                       GridLinesVisibility="All" RowBackground="#1000"
                       Height="{Binding $parent[Window].Height, Converter={StaticResource HeightConverter}}">
                 <DataGrid.Columns>

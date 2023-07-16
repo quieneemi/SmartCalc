@@ -135,7 +135,7 @@
                                                    Name="AdditionAmount"/>
                                 </DockPanel>
                             </StackPanel>
-                            <DataGrid Name="AdditionsDataGrid" Items="{Binding Additions}"
+                            <DataGrid Name="AdditionsDataGrid" ItemsSource="{Binding Additions}"
                                       GridLinesVisibility="All" RowBackground="#1000"
                                       Height="{Binding $parent[Window].Height, Converter={StaticResource HeightConverter}}">
                                 <DataGrid.Columns>
@@ -202,7 +202,7 @@
                                                    Increment="10000" Minimum="0"/>
                                 </DockPanel>
                             </StackPanel>
-                            <DataGrid Name="WithdrawalsDataGrid" Items="{Binding Withdrawals}"
+                            <DataGrid Name="WithdrawalsDataGrid" ItemsSource="{Binding Withdrawals}"
                                       GridLinesVisibility="All" RowBackground="#1000"
                                       Height="{Binding $parent[Window].Height, Converter={StaticResource HeightConverter}}">
                                 <DataGrid.Columns>

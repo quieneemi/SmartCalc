@@ -5,6 +5,7 @@
         xmlns:vm="using:DepositCalc.App.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="DepositCalc.App.Views.ResultWindow"
+		x:DataType="vm:ResultWindowViewModel"
         Icon="/Assets/estimate-icon.ico"
         Title="Result"
         WindowStartupLocation="CenterOwner"
